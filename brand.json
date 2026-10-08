@@ -16,18 +16,16 @@
   "models": {
     "_comment": "Public model renames. Clients list and call `id` (or `name`); the router calls `target` (provider-alias/model) behind the scenes and reports `id` back in every response. hideTarget keeps the upstream model out of /v1/models and the dashboard catalog.",
     "renames": [
-      { "id": "gpt-6.1-sol", "name": "GPT-6.1-Sol", "target": "shellshock-free" },
-      { "id": "gpt-6-astra", "name": "GPT-6-Astra", "target": "shellshock-free" }
+      { "id": "gpt-6.1-sol", "name": "GPT-6.1-Sol", "target": "oc/big-pickle", "hideTarget": true },
+      { "id": "gpt-6-astra", "name": "GPT-6-Astra", "target": "oc/big-pickle", "hideTarget": true }
     ]
   },
 
   "bridge": {
-    "_comment": "The `shellshock` setup wizard (cli/bridge.js). models lists the model ids offered in step 1; combo is the set of free OpenCode models behind them, refreshed on every run.",
+    "_comment": "The `shellshock` setup wizard (cli/bridge.js). models lists the model ids offered in step 1. Optional combo/comboProvider build a multi-model combo for combo-backed targets.",
     "name": "ShellShock",
     "command": "shellshock",
-    "models": ["gpt-6.1-sol", "gpt-6-astra"],
-    "combo": "shellshock-free",
-    "comboProvider": "opencode"
+    "models": ["gpt-6.1-sol", "gpt-6-astra"]
   },
 
   "providers": {

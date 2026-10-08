@@ -17,7 +17,8 @@ const pkg = require("./package.json");
 
 const BRIDGE = {
   name: BRAND.bridge.name || `${BRAND.name} Bridge`,
-  combo: BRAND.bridge.combo || `${BRAND.slug}-free`,
+  // Optional: build a combo of the provider's free models for combo-backed targets.
+  combo: BRAND.bridge.combo || null,
   comboProvider: BRAND.bridge.comboProvider || "opencode",
 };
 const MODELS = (BRAND.bridge.models || [])
@@ -91,10 +92,13 @@ function banner() {
   console.log("");
 }
 
+// Width ignores ANSI colour codes so bold/coloured lines stay aligned.
+const visibleLength = (text) => text.replace(/\x1b\[[0-9;]*m/g, "").length;
+
 function box(lines, colour = amber) {
-  const width = Math.max(...lines.map((l) => l.length)) + 2;
+  const width = Math.max(...lines.map(visibleLength)) + 2;
   console.log(colour(`  ╭${"─".repeat(width)}╮`));
-  for (const line of lines) console.log(colour("  │ ") + line.padEnd(width - 1) + colour("│"));
+  for (const line of lines) console.log(colour("  │ ") + line + " ".repeat(width - 1 - visibleLength(line)) + colour("│"));
   console.log(colour(`  ╰${"─".repeat(width)}╯`));
 }
 
@@ -279,7 +283,7 @@ async function main() {
   console.log("");
 
   const s1 = spinner(`Preparing ${model.name}…`);
-  await ensureCombo().catch((err) => { s1.fail(`Could not prepare ${model.name}`); throw err; });
+  if (BRIDGE.combo) await ensureCombo().catch((err) => { s1.fail(`Could not prepare ${model.name}`); throw err; });
   s1.ok(`${model.name} is ready`);
 
   const s2 = spinner(`Configuring ${tool.label}…`);
