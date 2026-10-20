@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 — 2026-10-20
+
+### Fixed
+- OpenCode Free models work again: requests use OpenCode's new free-tier endpoint and client identity.
+
+### Changed
+- Routing engine update: newer provider fixes (OpenCode Zen/Go, Claude, Codex, Qoder and more), per-key model access controls on the Endpoint page, Hermes profile support, and the `connect` / `show` CLI commands for pointing local tools at a remote router.
+
 ## 1.0.0 — 2026-09-27
 
 First ShellShock release.

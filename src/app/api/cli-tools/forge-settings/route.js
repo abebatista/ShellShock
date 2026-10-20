@@ -1,6 +1,7 @@
 "use server";
 
 import { NextResponse } from "next/server";
+import { resolveCliApiKey } from "../resolveApiKey.js";
 import fs from "fs/promises";
 import path from "path";
 import os from "os";
@@ -97,7 +98,7 @@ export async function POST(request) {
     const normalizedBaseUrl = baseUrl.endsWith("/v1") ? baseUrl : `${baseUrl}/v1`;
 
     existing.openai = {
-      api_key: apiKey || `sk_${BRAND.modelPrefix}`,
+      api_key: await resolveCliApiKey(apiKey),
       base_url: normalizedBaseUrl,
       model: model || "provider/model-id",
     };
